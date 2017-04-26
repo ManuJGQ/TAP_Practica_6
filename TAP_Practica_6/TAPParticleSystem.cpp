@@ -45,7 +45,7 @@ void TAPParticleSystem::crearParticula() {
 
 	p.position.x = 0;
 	p.position.y = -15;
-	p.position.z = 0;
+	p.position.z = -15;
 
 	p.movement.x = (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007) - (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007);
 	p.movement.y = ((((((5) * rand() % 11) + 5)) * rand() % 11) + 1) * 0.02;
@@ -73,7 +73,7 @@ void TAPParticleSystem::crearParticula(int i) {
 
 	particles[i].position.x = 0;
 	particles[i].position.y = -15;
-	particles[i].position.z = 0;
+	particles[i].position.z = -15;
 
 	particles[i].movement.x = (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007) - (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007);
 	particles[i].movement.y = ((((((5) * rand() % 11) + 5)) * rand() % 11) + 1) * 0.02;
@@ -217,10 +217,15 @@ void TAPParticleSystem::pintarSistemaPArticulas(){
 	for (int i = 0; i < numParticles; i++) {
 		glPushMatrix();
 		
-		std::cout << getRColor(i) << " - " << getGColor(i) << " - " << getBColor(i) << " - " << getAlpha(i) << std::endl;
+		//std::cout << getRColor(i) << " - " << getGColor(i) << " - " << getBColor(i) << " - " << getAlpha(i) << std::endl;
 
-		glColor4f(getRColor(i), getGColor(i), getBColor(i), getAlpha(i));
+		GLfloat color[] = { getRColor(i), getGColor(i), getBColor(i), getAlpha(i)};
+		//glColor4f(getRColor(i), getGColor(i), getBColor(i), getAlpha(i));
 		
+		glMaterialfv(GL_FRONT, GL_EMISSION, color);
+
+		//glShadeModel(GL_SMOOTH);
+
 		glTranslatef(getXPos(i), getYPos(i), getZPos(i) /* + zoom? */);
 		
 		glRotatef(getDirection(i) - 90, 0, 0, 1);
@@ -259,6 +264,7 @@ void TAPParticleSystem::pintarSistemaPArticulas(){
 		glEnd();
 
 		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_BLEND);
 
 		glPopMatrix();
 	}

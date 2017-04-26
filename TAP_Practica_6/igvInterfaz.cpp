@@ -90,7 +90,7 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 
 
 	glEnable(GL_DEPTH_TEST); // activa el ocultamiento de superficies por z-buffer
-	glClearColor(1.0, 1.0, 1.0, 1.0); // establece el color de fondo de la ventana
+	glClearColor(0.5, 0.5, 0.5, 1.0); // establece el color de fondo de la ventana
 
 	glEnable(GL_LIGHTING); // activa la iluminacion de la escena
 	glEnable(GL_NORMALIZE); // normaliza los vectores normales para calculo iluminacion
@@ -205,7 +205,7 @@ void igvInterfaz::set_glutReshapeFunc(int w, int h) {
 void igvInterfaz::set_glutDisplayFunc() {
 	GLuint lista_impactos[1024]; // array con la lista de impactos cuando se visualiza en modo selección
 	
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
 
 	//for (int i = 0; i < 2; i++) {
 
@@ -246,8 +246,14 @@ void igvInterfaz::set_glutDisplayFunc() {
 	//}
 	Sleep(50);
 
+	interfaz.vader.drawObjectC();
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
+	interfaz.camara.aplicar(0);
+
 	interfaz.sistemaparticulas.pintarSistemaPArticulas();
-	//interfaz.vader.drawObjectC();
+	
 
 	// refresca la ventana
 	glutSwapBuffers();

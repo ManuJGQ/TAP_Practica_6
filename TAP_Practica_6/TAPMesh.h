@@ -197,6 +197,8 @@ public:
 			glDisableClientState(GL_NORMAL_ARRAY);
 
 		glPopMatrix();
+
+		glDisable(GL_LIGHT0);
 	}
 
 	~TAPMesh();

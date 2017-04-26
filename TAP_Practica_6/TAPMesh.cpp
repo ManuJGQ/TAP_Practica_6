@@ -100,6 +100,8 @@ void TAPMesh::drawObjectC(int j) {
 
 	glPopMatrix();
 
+	glDisable(GL_LIGHT0);
+
 }
 
 TAPMesh::~TAPMesh(){}
