@@ -139,6 +139,7 @@
     <ClCompile Include="TAPLinearInterpolation.cpp" />
     <ClCompile Include="TAPMesh.cpp" />
     <ClCompile Include="TAPMotionController.cpp" />
+    <ClCompile Include="TAPParticleSystem.cpp" />
     <ClCompile Include="TAPSpeedController.cpp" />
     <ClCompile Include="TAPSphericalInterpolation.cpp" />
     <ClCompile Include="TAPStereoscopicCamera.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="TAPLinearInterpolation.h" />
     <ClInclude Include="TAPMesh.h" />
     <ClInclude Include="TAPMotionController.h" />
+    <ClInclude Include="TAPParticleSystem.h" />
     <ClInclude Include="TAPSpeedController.h" />
     <ClInclude Include="TAPSphericalInterpolation.h" />
     <ClInclude Include="TAPStereoscopicCamera.h" />
