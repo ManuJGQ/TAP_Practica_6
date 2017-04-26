@@ -76,7 +76,7 @@ public:
 	void aplicarTraslacion(float _x, float _y, float _z) {
 		mesh.trasladar(_x, _y, _z);
 		for (int j = 0; j < children.size(); j++) {
-			std::cout << children[j] << std::endl;
+			//std::cout << children[j] << std::endl;
 			joints[children[j]]->aplicarTraslacionPadre(_x, _y, _z);
 		}
 	}
@@ -88,7 +88,7 @@ public:
 	void desaplicartranslacion() {
 		mesh.desaplicartranslacion();
 		for (int j = 0; j < children.size(); j++) {
-			std::cout << children[j] << std::endl;
+			//std::cout << children[j] << std::endl;
 			joints[children[j]]->desaplicartranslacion();
 		}
 	}

@@ -57,6 +57,8 @@ igvInterfaz::igvInterfaz() {
 	anaglifo = true;
 
 	vader = TAPHumanoid("vader.obj", "vaderskeleton.txt");
+
+	sistemaparticulas = TAPParticleSystem();
 }
 
 igvInterfaz::~igvInterfaz() {}
@@ -203,7 +205,7 @@ void igvInterfaz::set_glutReshapeFunc(int w, int h) {
 void igvInterfaz::set_glutDisplayFunc() {
 	GLuint lista_impactos[1024]; // array con la lista de impactos cuando se visualiza en modo selección
 	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
 
 	//for (int i = 0; i < 2; i++) {
 
@@ -244,7 +246,8 @@ void igvInterfaz::set_glutDisplayFunc() {
 	//}
 	Sleep(50);
 
-	interfaz.vader.drawObjectC();
+	interfaz.sistemaparticulas.pintarSistemaPArticulas();
+	//interfaz.vader.drawObjectC();
 
 	// refresca la ventana
 	glutSwapBuffers();

@@ -80,7 +80,7 @@ void TAPMesh::drawObjectC(int j) {
 	X = X2;
 	Y = Y2;
 	Z = Z2;
-	std::cout << X << " " << Y << " " << Z << std::endl;
+	//std::cout << X << " " << Y << " " << Z << std::endl;
 		//glLightfv(GL_LIGHT0, GL_AMBIENT, luz0);
 		igvFuenteLuz l(GL_LIGHT0, igvPunto3D(5.0, 5.0, 0.0), igvColor(0.0, 0.0, 0.0, 1.0), igvColor(1.0, 1.0, 1.0, 1.0), igvColor(1.0, 1.0, 1.0, 1.0), 1.0, 0.0, 0.0);
 		l.aplicar();

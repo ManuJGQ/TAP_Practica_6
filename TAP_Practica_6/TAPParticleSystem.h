@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "igvTextura.h"
 
 struct Vector {
 	float x;
@@ -26,6 +27,8 @@ class TAPParticleSystem{
 	std::vector<Particle> particles;
 	int numParticles;
 
+	igvTextura texture[2];
+
 public:
 
 	/**
@@ -40,6 +43,7 @@ public:
 	*/
 
 	void crearParticula();
+	void crearParticula(int i);
 	void updateParticle();
 	void pasarAHumo(int i);
 
@@ -61,6 +65,11 @@ public:
 
 	//Devuelve la descoloracion de una particula en funcion de su tiempo de vida
 	float getAlpha(int i); 
+
+	/**
+	* Funcion encargada de pintar el Sistema de Particulas
+	*/
+	void pintarSistemaPArticulas();
 
 	~TAPParticleSystem();
 };

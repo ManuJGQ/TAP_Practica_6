@@ -116,7 +116,7 @@ public:
 
 		glPushMatrix();
 			
-		std::cout << Y << " - " << Y2 << std::endl;
+		//std::cout << Y << " - " << Y2 << std::endl;
 
 			if (trans){
 				if (Y == 5 && Y2 != 5 && sum == 1)sum = -1;

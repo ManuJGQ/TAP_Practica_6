@@ -13,6 +13,8 @@
 #include "TAPStereoscopicCamera.h"
 #include "TAPHumanoid.h"
 
+#include "TAPParticleSystem.h"
+
 using namespace std;
 
 typedef enum {
@@ -38,6 +40,9 @@ class igvInterfaz {
 
 	//Interpolacion Esferica
 	TAPSphericalInterpolation sphericalInterpolation;
+
+	//Sistema de Particulas
+	TAPParticleSystem sistemaparticulas;
 
 	//Deformacion
 	float twist;

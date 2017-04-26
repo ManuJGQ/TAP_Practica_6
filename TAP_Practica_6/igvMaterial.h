@@ -5,6 +5,7 @@
 
 #include "igvColor.h"
 
+
 class igvMaterial {
 
 	protected:

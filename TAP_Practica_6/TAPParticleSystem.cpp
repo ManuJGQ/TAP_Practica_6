@@ -1,7 +1,10 @@
 #include "TAPParticleSystem.h"
 
+#include <glut.h>
+#include <iostream>
+
 TAPParticleSystem::TAPParticleSystem() {
-	numParticles = 3000;
+	numParticles = 1000;
 
 	systemPull.y = 0.0005;
 	systemPull.x = 0.0f;
@@ -10,6 +13,9 @@ TAPParticleSystem::TAPParticleSystem() {
 	for (int i = 0; i < numParticles; i++) {
 		crearParticula();
 	}
+
+	texture[0] = igvTextura("particle_mask.raw", 256, 256);
+	texture[1] = igvTextura("particle.raw", 256, 256); 
 }
 
 TAPParticleSystem::TAPParticleSystem(int _numParticles) {
@@ -22,6 +28,9 @@ TAPParticleSystem::TAPParticleSystem(int _numParticles) {
 	for (int i = 0; i < numParticles; i++) {
 		crearParticula();
 	}
+
+	texture[0] = igvTextura("particle_mask.raw", 256, 256);
+	texture[1] = igvTextura("particle.raw", 256, 256);
 }
 
 void TAPParticleSystem::crearParticula() {
@@ -51,6 +60,32 @@ void TAPParticleSystem::crearParticula() {
 	p.pull.z = 0.0f;
 
 	particles.push_back(p);
+}
+
+void TAPParticleSystem::crearParticula(int i) {
+
+	particles[i].lifespan = (((rand() % 10 + 1))) / 10.0f;
+	particles[i].smoke = false;
+
+	particles[i].age = 0.0f;
+	particles[i].scale = 0.25f;
+	particles[i].direction = 0;
+
+	particles[i].position.x = 0;
+	particles[i].position.y = -15;
+	particles[i].position.z = 0;
+
+	particles[i].movement.x = (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007) - (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007);
+	particles[i].movement.y = ((((((5) * rand() % 11) + 5)) * rand() % 11) + 1) * 0.02;
+	particles[i].movement.z = (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007) - (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007);
+
+	particles[i].color.x = 1.0f;
+	particles[i].color.y = 0.95f;
+	particles[i].color.z = 0.8f;
+
+	particles[i].pull.x = 0.0f;
+	particles[i].pull.y = 0.0f;
+	particles[i].pull.z = 0.0f;
 }
 
 void TAPParticleSystem::updateParticle() {
@@ -103,12 +138,12 @@ void TAPParticleSystem::updateParticle() {
 				if (temp < 10) {
 					pasarAHumo(i);
 				} else {
-					crearParticula();
+					crearParticula(i);
 				}	
 			}
 		} else if (particles[i].smoke) {
 			if (particles[i].age > particles[i].lifespan || particles[i].position.y > 45 || particles[i].position.y < -35 || particles[i].position.y > 80 || particles[i].position.y < -80) {
-				crearParticula();
+				crearParticula(i);
 			}
 		}
 	}
@@ -174,6 +209,59 @@ float TAPParticleSystem::getDirection(int i){
 
 float TAPParticleSystem::getAlpha(int i){
 	return (1 - particles[i].age / particles[i].lifespan);
+}
+
+void TAPParticleSystem::pintarSistemaPArticulas(){
+	updateParticle();
+
+	for (int i = 0; i < numParticles; i++) {
+		glPushMatrix();
+		
+		std::cout << getRColor(i) << " - " << getGColor(i) << " - " << getBColor(i) << " - " << getAlpha(i) << std::endl;
+
+		glColor4f(getRColor(i), getGColor(i), getBColor(i), getAlpha(i));
+		
+		glTranslatef(getXPos(i), getYPos(i), getZPos(i) /* + zoom? */);
+		
+		glRotatef(getDirection(i) - 90, 0, 0, 1);
+		
+		glScalef(getScale(i), getScale(i), getScale(i));
+
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+
+		glBlendFunc(GL_DST_COLOR, GL_ZERO);
+		texture[0].aplicar();
+
+		glBegin(GL_QUADS);
+		glTexCoord2d(0, 0);
+		glVertex3f(-1, -1, 0);
+		glTexCoord2d(1, 0);
+		glVertex3f(1, -1, 0);
+		glTexCoord2d(1, 1);
+		glVertex3f(1, 1, 0);
+		glTexCoord2d(0, 1);
+		glVertex3f(-1, 1, 0);
+		glEnd();
+
+		glBlendFunc(GL_ONE, GL_ONE);
+		texture[1].aplicar();
+
+		glBegin(GL_QUADS);
+		glTexCoord2d(0, 0);
+		glVertex3f(-1, -1, 0);
+		glTexCoord2d(1, 0);
+		glVertex3f(1, -1, 0);
+		glTexCoord2d(1, 1);
+		glVertex3f(1, 1, 0);
+		glTexCoord2d(0, 1);
+		glVertex3f(-1, 1, 0);
+		glEnd();
+
+		glEnable(GL_DEPTH_TEST);
+
+		glPopMatrix();
+	}
 }
 
 TAPParticleSystem::~TAPParticleSystem() {}
