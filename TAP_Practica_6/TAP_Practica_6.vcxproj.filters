@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Librerias Adicionales">
+      <UniqueIdentifier>{1762d9bc-2e54-409c-81cc-9174bfb2ebbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="igvCamara.cpp">
@@ -66,6 +69,12 @@
     <ClCompile Include="TAPParticleSystem.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="igvTextura.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="bmp.cpp">
+      <Filter>Librerias Adicionales</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="igvCamara.h">
@@ -115,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="TAPParticleSystem.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="igvTextura.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="bmp.h">
+      <Filter>Librerias Adicionales</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

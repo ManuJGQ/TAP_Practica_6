@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bmp.cpp" />
     <ClCompile Include="igvCamara.cpp" />
     <ClCompile Include="igvColor.cpp" />
     <ClCompile Include="igvEscena3D.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="igvInterfaz.cpp" />
     <ClCompile Include="igvMaterial.cpp" />
     <ClCompile Include="igvPunto3D.cpp" />
+    <ClCompile Include="igvTextura.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TAPBezier.cpp" />
     <ClCompile Include="TAPHumanoid.cpp" />
@@ -145,6 +147,7 @@
     <ClCompile Include="TAPStereoscopicCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bmp.h" />
     <ClInclude Include="igvCamara.h" />
     <ClInclude Include="igvColor.h" />
     <ClInclude Include="igvEscena3D.h" />
@@ -152,6 +155,7 @@
     <ClInclude Include="igvInterfaz.h" />
     <ClInclude Include="igvMaterial.h" />
     <ClInclude Include="igvPunto3D.h" />
+    <ClInclude Include="igvTextura.h" />
     <ClInclude Include="TAPBezier.h" />
     <ClInclude Include="TAPHumanoid.h" />
     <ClInclude Include="TAPLinearInterpolation.h" />
