@@ -16,7 +16,7 @@ static bool iguales(double a, double b) {
 using namespace std;
 
 class igvEscena3D {
-	Punto movimiento;
+	Puntos movimiento;
 
 	Quaternion giro;
 
@@ -42,7 +42,7 @@ public:
 		giro.z = _giro.z;
 	}
 
-	void setMovimiento(Punto _mov) {
+	void setMovimiento(Puntos _mov) {
 		movimiento.x = _mov.x;
 		movimiento.y = _mov.y;
 		movimiento.z = _mov.z;

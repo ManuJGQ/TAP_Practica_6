@@ -62,15 +62,15 @@ void igvEscena3D::visualizar() {
 
 	//Vertices cubo
 
-	Punto x1 = {};
-	Punto x2 = {};
-	Punto x3 = {};
-	Punto x4 = {};
+	Puntos x1 = {};
+	Puntos x2 = {};
+	Puntos x3 = {};
+	Puntos x4 = {};
 
-	Punto x5 = {};
-	Punto x6 = {};
-	Punto x7 = {};
-	Punto x8 = {};
+	Puntos x5 = {};
+	Puntos x6 = {};
+	Puntos x7 = {};
+	Puntos x8 = {};
 
 	if (!tapering) {
 		x1 = { -1.5f * cos(twist * 1.5f) - 1.5f * sin(twist * 1.5f), -1.5f * sin(twist * 1.5f) + 1.5f * cos(twist * 1.5f), 1.5f };

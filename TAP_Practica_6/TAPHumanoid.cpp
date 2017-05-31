@@ -194,12 +194,12 @@ TAPHumanoid::TAPHumanoid(std::string object, std::string skeleton) {
 		TAPJoint* p = new TAPJoint(joints[i]);
 		punteros.push_back(p);
 	}
-	std::cout << "FINALIZANDO CARGA" << std::endl;
+	//std::cout << "FINALIZANDO CARGA" << std::endl;
 	for (int i = 0; i < count; i++) {
 		punteros[i]->setJoints(punteros);
 		joints[i].setJoints(punteros);
 	}
-	std::cout << "CARGA COMPLETA" << std::endl;
+	//std::cout << "CARGA COMPLETA" << std::endl;
 	archivo.close();
 
 }

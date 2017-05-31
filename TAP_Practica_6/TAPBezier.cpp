@@ -13,7 +13,7 @@ TAPBezier::TAPBezier() {}
 * Constructor al cual le pasas los 4 puntos que sirven para construir
 * una curva de Bezier
 */
-TAPBezier::TAPBezier(Punto _a, Punto _c0, Punto _c1, Punto _b) {
+TAPBezier::TAPBezier(Puntos _a, Puntos _c0, Puntos _c1, Puntos _b) {
 	A = _a;
 	C0 = _c0;
 	C1 = _c1;
@@ -33,7 +33,7 @@ TAPBezier::TAPBezier(std::string ficheroTXT) {
 	std::string linea_actual;
 
 	std::string sP;
-	Punto P;
+	Puntos P;
 	int i = 0;
 
 	try {
@@ -101,8 +101,8 @@ TAPBezier::TAPBezier(const TAPBezier & bezier) {
 /**
 * Funcion que devuelve el punto P de la curva en el instante t
 */
-Punto TAPBezier::getPunto(float u) {
-	Punto p;
+Puntos TAPBezier::getPunto(float u) {
+	Puntos p;
 
 	//std::cout << u << std::endl;
 
@@ -123,8 +123,8 @@ Punto TAPBezier::getPunto(float u) {
 * correspondientes a los valores u1 y u2 de la curva de Bezier
 */
 float TAPBezier::distancia(float u1, float u2) {
-	Punto a = getPunto(u1);
-	Punto b = getPunto(u2);
+	Puntos a = getPunto(u1);
+	Puntos b = getPunto(u2);
 
 	return sqrt(powf(a.x - b.x, 2) + powf(a.y - b.y, 2) + powf(a.z - b.z, 2));
 }
@@ -134,7 +134,7 @@ float TAPBezier::distancia(float u1, float u2) {
 */
 void TAPBezier::pintarCurva() {
 	for (float i = 0.0f; i <= 1.0f; i += 0.001) {
-		Punto p = getPunto(i);
+		Puntos p = getPunto(i);
 		glPushMatrix();
 			glTranslatef(p.x, p.y, p.z);
 

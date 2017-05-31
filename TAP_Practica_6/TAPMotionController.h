@@ -22,7 +22,7 @@ public:
 	void construirTablaIncrementos();
 	int get_Indice(float s);
 
-	Punto get_Punto(float t);
+	Puntos get_Punto(float t);
 
 	float get_Twist(float t);
 
@@ -32,19 +32,19 @@ public:
 	}
 
 	//Sets de la curva de Bezier
-	void set_A(Punto _a) { 
+	void set_A(Puntos _a) { 
 		desplazamiento.setA(_a); 
 		construirTablaIncrementos();
 	}
-	void set_C0(Punto _c0) { 
+	void set_C0(Puntos _c0) { 
 		desplazamiento.setC0(_c0); 
 		construirTablaIncrementos();
 	}
-	void set_C1(Punto _c1) { 
+	void set_C1(Puntos _c1) { 
 		desplazamiento.setC1(_c1);
 		construirTablaIncrementos();
 	}
-	void set_B(Punto _b) { 
+	void set_B(Puntos _b) { 
 		desplazamiento.setB(_b);
 		construirTablaIncrementos();
 	}

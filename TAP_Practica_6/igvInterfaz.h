@@ -23,8 +23,19 @@ typedef enum {
 } modoInterfaz;
 
 class igvInterfaz {
-	float pt;
-	Punto puntoActual;
+
+	// Interpolacion Lineal
+	TAPLinearInterpolation linearInterpolation;
+	double pt;
+	double ut;
+	Puntos puntoActual;
+
+	// Interpolacion Esferica
+	TAPSphericalInterpolation sphericalInterpolation;
+	double spt;
+	double sut;
+
+	int travelling;
 
 	//Humanoide
 	TAPHumanoid vader;
@@ -38,13 +49,12 @@ class igvInterfaz {
 	//Controlador Movimiento
 	TAPMotionController movController;
 
-	//Interpolacion Esferica
-	TAPSphericalInterpolation sphericalInterpolation;
-
 	//Sistema de Particulas
 	TAPParticleSystem sistemaparticulas;
 
 	//Deformacion
+	float pt2;
+
 	float twist;
 
 	char opcion;
@@ -77,6 +87,8 @@ protected:
 					   // visualizar en modo selección para el cálculo de la lista de impactos
 
 public:
+	int option;
+
 	// Constructores por defecto y destructor
 	igvInterfaz();
 	~igvInterfaz();
@@ -96,6 +108,8 @@ public:
 	static void set_glutIdleFunc(); // método para animar la escena
 
 	static void set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y); //RATON
+
+	static void ControlFlechas(int key, int x, int y);
 
 	// Metodos
 

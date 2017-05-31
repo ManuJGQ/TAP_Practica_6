@@ -29,6 +29,10 @@ class TAPParticleSystem{
 
 	igvTextura texture[2];
 
+	int X;
+	int Y;
+	int Z;
+
 public:
 
 	/**
@@ -62,6 +66,8 @@ public:
 	float getBColor(int i);
 	float getScale(int i); 
 	float getDirection(int i); 
+
+	void setPosition(int x, int y, int z);
 
 	//Devuelve la descoloracion de una particula en funcion de su tiempo de vida
 	float getAlpha(int i); 

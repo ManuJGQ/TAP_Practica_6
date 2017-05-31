@@ -84,7 +84,7 @@ int TAPMotionController::get_Indice(float s){
 * Funcion que devuelve el Punto p en el que el objete se encuentre
 * en el instante t
 */
-Punto TAPMotionController::get_Punto(float t){
+Puntos TAPMotionController::get_Punto(float t){
 	float incremento = 1.0f / (float)nEntradasTabla;
 
 	float s = velocidad.ease(t) * tablaIncrementos[nEntradasTabla].first / velocidad.ease(1.0f);

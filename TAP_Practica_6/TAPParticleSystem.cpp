@@ -14,6 +14,10 @@ TAPParticleSystem::TAPParticleSystem() {
 		crearParticula();
 	}
 
+	X = 0;
+	Y = -15;
+	Z = -15;
+
 	texture[0] = igvTextura("particle_mask.raw", 256, 256);
 	texture[1] = igvTextura("particle.raw", 256, 256); 
 }
@@ -29,6 +33,10 @@ TAPParticleSystem::TAPParticleSystem(int _numParticles) {
 		crearParticula();
 	}
 
+	X = 0;
+	Y = -15;
+	Z = -15;
+
 	texture[0] = igvTextura("particle_mask.raw", 256, 256);
 	texture[1] = igvTextura("particle.raw", 256, 256);
 }
@@ -43,9 +51,9 @@ void TAPParticleSystem::crearParticula() {
 	p.scale = 0.25f;
 	p.direction = 0;
 
-	p.position.x = 0;
-	p.position.y = -15;
-	p.position.z = -15;
+	p.position.x = X;
+	p.position.y = Y;
+	p.position.z = Z;
 
 	p.movement.x = (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007) - (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007);
 	p.movement.y = ((((((5) * rand() % 11) + 5)) * rand() % 11) + 1) * 0.02;
@@ -71,9 +79,11 @@ void TAPParticleSystem::crearParticula(int i) {
 	particles[i].scale = 0.25f;
 	particles[i].direction = 0;
 
-	particles[i].position.x = 0;
-	particles[i].position.y = -15;
-	particles[i].position.z = -15;
+	particles[i].position.x = X;
+	particles[i].position.y = Y;
+	particles[i].position.z = Z;
+
+	//std::cout << X << std::endl;
 
 	particles[i].movement.x = (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007) - (((((((2) * rand() % 11) + 1)) * rand() % 11) + 1) * 0.007);
 	particles[i].movement.y = ((((((5) * rand() % 11) + 5)) * rand() % 11) + 1) * 0.02;
@@ -207,6 +217,12 @@ float TAPParticleSystem::getDirection(int i){
 	return particles[i].direction;
 }
 
+void TAPParticleSystem::setPosition(int x, int y, int z){
+	X += x;
+	Y += y;
+	Z += z;
+}
+
 float TAPParticleSystem::getAlpha(int i){
 	return (1 - particles[i].age / particles[i].lifespan);
 }
@@ -226,7 +242,7 @@ void TAPParticleSystem::pintarSistemaPArticulas(){
 
 		//glShadeModel(GL_SMOOTH);
 
-		glTranslatef(getXPos(i), getYPos(i), getZPos(i) /* + zoom? */);
+		glTranslatef(getXPos(i), getYPos(i), getZPos(i));
 		
 		glRotatef(getDirection(i) - 90, 0, 0, 1);
 		

@@ -40,7 +40,21 @@ igvInterfaz::igvInterfaz() {
 
 	animacion = false;
 
-	pt = 0.0f;
+	option = 1;
+
+	// PRACTICA 2
+	linearInterpolation = TAPLinearInterpolation("linearInterpolation.txt");
+	pt = linearInterpolation.getPrimeraT();
+	ut = linearInterpolation.getUltimoT();
+	puntoActual = linearInterpolation.getPosicionInterpolada(pt);
+
+	sphericalInterpolation = TAPSphericalInterpolation("sphericalInterpolation.txt");
+	spt = sphericalInterpolation.getPrimeraT();
+	sut = sphericalInterpolation.getUltimoT();
+
+	travelling = 0;
+
+	pt2 = 0.0f;
 
 	bezier = TAPBezier("bezier.txt");
 
@@ -50,7 +64,7 @@ igvInterfaz::igvInterfaz() {
 
 	twist = 0.0f;
 
-	sphericalInterpolation = TAPSphericalInterpolation("sphericalInterpolation.txt");
+	//sphericalInterpolation = TAPSphericalInterpolation("sphericalInterpolation.txt");
 
 	pintarBezier = true;
 
@@ -88,12 +102,13 @@ void igvInterfaz::configura_entorno(int argc, char** argv,
 	glutInitWindowPosition(_pos_X, _pos_Y);
 	glutCreateWindow(_titulo.c_str());
 
-
+	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_DEPTH_TEST); // activa el ocultamiento de superficies por z-buffer
-	glClearColor(0.5, 0.5, 0.5, 1.0); // establece el color de fondo de la ventana
+	glClearColor(0, 0, 0, 1.0); // establece el color de fondo de la ventana
 
 	glEnable(GL_LIGHTING); // activa la iluminacion de la escena
 	glEnable(GL_NORMALIZE); // normaliza los vectores normales para calculo iluminacion
+
 
 	crear_mundo(); // crea el mundo a visualizar en la ventana
 }
@@ -124,6 +139,18 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.opcion = '2';
 		std::cout << "K2" << std::endl;
 		break;
+	case '3':
+		glClearColor(0, 0, 0, 1.0);
+		interfaz.option = 1;
+		break;
+	case '4':
+		glClearColor(0, 0, 0, 1.0);
+		interfaz.option = 3;
+		break;
+	case '5':
+		glClearColor(0.5, 0.5, 0.5, 1.0);
+		interfaz.option = 2;
+		break;
 	case '+':
 		if (interfaz.opcion == '1' && !interfaz.animacion) {
 			interfaz.movController.set_K1(0.05);
@@ -144,42 +171,56 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 			interfaz.velocidad.set_K2(-0.05);
 		}
 		break;
-	/*case 'X':
-		interfaz.tc += 0.5;
-		interfaz.camara.set_tc(interfaz.tc);
-		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+	case 't':
+		interfaz.escena.setTwist(0.01);
 		break;
-	case 'x':
-		interfaz.tc -= 0.5;
-		interfaz.camara.set_tc(interfaz.tc);
-		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+	case 'T':
+		interfaz.escena.setTwist(-0.01);
 		break;
-	case 'Z':
-		interfaz.d0 += 0.5;
-		interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
-		interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
-		interfaz.camara.set_d0(interfaz.d0);
-		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+	case 'R':
+	case 'r':
+		interfaz.escena.setTapering(interfaz.escena.getTapering() ? false : true);
 		break;
-	case 'z':
-		interfaz.d0 -= 0.5;
-		interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
-		interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
-		interfaz.camara.set_d0(interfaz.d0);
-		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
-		break;*/
-	case 's':
-	case 'S': 
-		interfaz.vader.activatSaltar();
-		break;
+		/*case 'X':
+			interfaz.tc += 0.5;
+			interfaz.camara.set_tc(interfaz.tc);
+			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+			break;
+		case 'x':
+			interfaz.tc -= 0.5;
+			interfaz.camara.set_tc(interfaz.tc);
+			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+			break;
+		case 'Z':
+			interfaz.d0 += 0.5;
+			interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
+			interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
+			interfaz.camara.set_d0(interfaz.d0);
+			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+			break;
+		case 'z':
+			interfaz.d0 -= 0.5;
+			interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
+			interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
+			interfaz.camara.set_d0(interfaz.d0);
+			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+			break;*/
 	case 'A':
 	case 'a': // activa/desactiva la animación de la escena
 	// incluir aquí la activación de la animación
 		interfaz.animacion = (interfaz.animacion ? false : true);
 		break;
+	case 'B':
+	case 'b':
+		interfaz.pintarBezier = (interfaz.pintarBezier ? false : true);
+		break;
 	case 'W':
 	case 'w':
 		interfaz.vader.activatAndar();
+		break;
+	case 's':
+	case 'S':
+		interfaz.vader.activatSaltar();
 		break;
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
@@ -188,7 +229,25 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		exit(1);
 		break;
 	}
-	//glutPostRedisplay(); // renueva el contenido de la ventana de vision
+	glutPostRedisplay(); // renueva el contenido de la ventana de vision
+}
+
+void igvInterfaz::ControlFlechas(int key, int x, int y) {
+	switch (key) {
+	case GLUT_KEY_LEFT:
+		interfaz.sistemaparticulas.setPosition(-1, 0, 0);
+		break;
+	case GLUT_KEY_RIGHT:
+		interfaz.sistemaparticulas.setPosition(1, 0, 0);
+		break;
+	case GLUT_KEY_UP:
+		interfaz.sistemaparticulas.setPosition(0, 1, 0);
+		break;
+	case GLUT_KEY_DOWN:
+		interfaz.sistemaparticulas.setPosition(0, -1, 0);
+		break;
+	}
+
 }
 
 void igvInterfaz::set_glutReshapeFunc(int w, int h) {
@@ -204,7 +263,7 @@ void igvInterfaz::set_glutReshapeFunc(int w, int h) {
 
 void igvInterfaz::set_glutDisplayFunc() {
 	GLuint lista_impactos[1024]; // array con la lista de impactos cuando se visualiza en modo selección
-	
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
 
 	//for (int i = 0; i < 2; i++) {
@@ -244,16 +303,29 @@ void igvInterfaz::set_glutDisplayFunc() {
 
 	//	if (interfaz.anaglifo)glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	//}
-	Sleep(50);
 
-	interfaz.vader.drawObjectC();
+	switch (interfaz.option) {
+	case 1:
+		interfaz.escena.visualizar();
+		break;
+	case 2:
+		Sleep(50);
 
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
-	interfaz.camara.aplicar(0);
+		interfaz.vader.drawObjectC();
 
-	interfaz.sistemaparticulas.pintarSistemaPArticulas();
-	
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
+		interfaz.camara.aplicar(0);
+
+		interfaz.sistemaparticulas.pintarSistemaPArticulas();
+		break;
+	case 3:
+		if (interfaz.pintarBezier)interfaz.bezier.pintarCurva();
+		else interfaz.velocidad.pintarCurva();
+
+		interfaz.escena.visualizar();
+		break;
+	}
 
 	// refresca la ventana
 	glutSwapBuffers();
@@ -276,44 +348,94 @@ void igvInterfaz::set_glutMouseFunc(GLint boton, GLint estado, GLint x, GLint y)
 void igvInterfaz::set_glutIdleFunc() {
 	// incluir el código para animar el modelo de la manera más realista posible
 	if (interfaz.animacion) {
-		///***************************************************************
-		//*		     INTERPOLACION MOVIMIENTO & DEFORMACION			   *
-		//***************************************************************/
-		//
-		//Punto nuevoPunto = interfaz.movController.get_Punto(interfaz.pt);
+		Puntos movimiento;
+		Puntos nuevoPunto;
+		Quaternion nuevoGiro;
 
-		//interfaz.twist = interfaz.movController.get_Twist(interfaz.pt);
+		switch (interfaz.option) {
+		case 1:
+			/***************************************************************
+			*					INTERPOLACION LINEAL					   *
+			***************************************************************/
+			interfaz.pt += 0.01;
+			if (interfaz.pt > interfaz.ut) {
+				interfaz.pt = interfaz.linearInterpolation.getPrimeraT();
+			}
+			nuevoPunto = interfaz.linearInterpolation.getPosicionInterpolada(interfaz.pt);
 
-		//interfaz.pt += 0.01f;
-		//if (interfaz.pt >= 1.0f) {
-		//	interfaz.pt = 0.0f;
-		//}
+			movimiento.x = nuevoPunto.x - interfaz.puntoActual.x;
+			movimiento.y = nuevoPunto.y - interfaz.puntoActual.y;
+			movimiento.z = nuevoPunto.z - interfaz.puntoActual.z;
 
-		//std::cout << interfaz.pt << std::endl;
-		//std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;*/
+			/*std::cout << "--------------------------------------------------------" << std::endl;
+			std::cout << interfaz.puntoActual.x << " " << interfaz.puntoActual.y << " " << interfaz.puntoActual.z << std::endl;*/
 
-		//Punto movimiento;
-		//movimiento.x = nuevoPunto.x - interfaz.puntoActual.x;
-		//movimiento.y = nuevoPunto.y - interfaz.puntoActual.y;
-		//movimiento.z = nuevoPunto.z - interfaz.puntoActual.z;
+			interfaz.puntoActual = nuevoPunto;
 
-		///*std::cout << "--------------------------------------------------------" << std::endl;
-		//std::cout << interfaz.puntoActual.x << " " << interfaz.puntoActual.y << " " << interfaz.puntoActual.z << std::endl;*/
+			//std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
+			//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
 
-		//interfaz.puntoActual = nuevoPunto;
+			interfaz.escena.setMovimiento(nuevoPunto);
 
-		////std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
-		////std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
+			/***************************************************************
+			*					INTERPOLACION ESFERICA					   *
+			***************************************************************/
+			interfaz.spt += 0.01;
+			if (interfaz.spt > interfaz.sut) {
+				interfaz.spt = interfaz.sphericalInterpolation.getPrimeraT();
+			}
+			nuevoGiro = interfaz.sphericalInterpolation.getPosicionInterpolada(interfaz.spt);
 
-		////std::cout << interfaz.twist << std::endl;
+			interfaz.escena.setGiro(nuevoGiro);
 
-		//interfaz.escena.setMovimiento(nuevoPunto);
-		//interfaz.escena.setTwist(interfaz.twist * 0.7f);
+			glutPostRedisplay();
+			break;
+		case 2:
+			glutPostRedisplay();
+			break;
+		case 3:
+			/***************************************************************
+			*		     INTERPOLACION MOVIMIENTO & DEFORMACION			   *
+			***************************************************************/
 
-		//Quaternion nuevoGiro = interfaz.sphericalInterpolation.getPosicionInterpolada(interfaz.twist * interfaz.sphericalInterpolation.getUltimoT());
+			nuevoPunto = interfaz.movController.get_Punto(interfaz.pt2);
 
-		//interfaz.escena.setGiro(nuevoGiro);
-		glutPostRedisplay();
+			interfaz.twist = interfaz.movController.get_Twist(interfaz.pt2);
+
+			interfaz.pt2 += 0.01f;
+			if (interfaz.pt2 >= 1.0f) {
+				interfaz.pt2 = 0.0f;
+			}
+
+			/*std::cout << interfaz.pt2 << std::endl;
+			std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;*/
+
+			
+			movimiento.x = nuevoPunto.x - interfaz.puntoActual.x;
+			movimiento.y = nuevoPunto.y - interfaz.puntoActual.y;
+			movimiento.z = nuevoPunto.z - interfaz.puntoActual.z;
+
+			/*std::cout << "--------------------------------------------------------" << std::endl;
+			std::cout << interfaz.puntoActual.x << " " << interfaz.puntoActual.y << " " << interfaz.puntoActual.z << std::endl;*/
+
+			interfaz.puntoActual = nuevoPunto;
+
+			//std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;
+			//std::cout << movimiento.x << " " << movimiento.y << " " << movimiento.z << std::endl;
+
+			//std::cout << interfaz.twist << std::endl;
+
+			interfaz.escena.setMovimiento(nuevoPunto);
+			interfaz.escena.setTwist(interfaz.twist * 0.7f);
+
+			nuevoGiro = interfaz.sphericalInterpolation.getPosicionInterpolada(interfaz.twist * interfaz.sphericalInterpolation.getUltimoT());
+
+			interfaz.escena.setGiro(nuevoGiro);
+
+			glutPostRedisplay();
+			break;
+
+		}
 	}
 }
 
@@ -323,4 +445,5 @@ void igvInterfaz::inicializa_callbacks() {
 	glutDisplayFunc(set_glutDisplayFunc);
 	glutIdleFunc(set_glutIdleFunc);
 	glutMouseFunc(set_glutMouseFunc);
+	glutSpecialFunc(ControlFlechas);
 }

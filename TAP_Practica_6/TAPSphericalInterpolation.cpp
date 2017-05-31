@@ -113,6 +113,7 @@ TAPSphericalInterpolation::TAPSphericalInterpolation(const TAPSphericalInterpola
 * Funcion que dado un valor T devuelve el Quaternion en funcion a la interpolacion
 */
 Quaternion TAPSphericalInterpolation::getPosicionInterpolada(double _t){
+	//std::cout << _t << std::endl;
 	int tamaT = coordenadasT.size() - 1;
 
 	for (int i = 0; i < tamaT; i++) {
@@ -165,11 +166,12 @@ Quaternion TAPSphericalInterpolation::getPosicionInterpolada(double _t){
 			z.y = (a * x.y) + (b * y.y);
 			z.z = (a * x.z) + (b * y.z);
 
-			std::cout << z.s << " " << z.x << " " << z.y << " " << z.z << std::endl;
+			//std::cout << z.s << " " << z.x << " " << z.y << " " << z.z << std::endl;
 
 			return z;
 		}
 	}
+	std::cout << "" << std::endl;
 }
 
 /**
