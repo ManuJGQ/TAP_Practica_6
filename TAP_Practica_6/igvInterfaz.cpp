@@ -151,6 +151,10 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		glClearColor(0.5, 0.5, 0.5, 1.0);
 		interfaz.option = 2;
 		break;
+	case '6':
+		glClearColor(0, 0, 0, 1.0);
+		interfaz.option = 4;
+		break;
 	case '+':
 		if (interfaz.option = 3) {
 			if (interfaz.opcion == '1' && !interfaz.animacion) {
@@ -213,11 +217,11 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 	case 'm':
 		interfaz.anaglifo++;
 		if (interfaz.anaglifo > 2)interfaz.anaglifo = 0;
-		if (interfaz.anaglifo == 2) {
+		//if (interfaz.anaglifo == 2) {
 			interfaz.tc = 0;
 			interfaz.camara.set_tc(interfaz.tc);
 			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
-		}
+		//}
 		break;
 	case 'A':
 	case 'a': // activa/desactiva la animación de la escena
@@ -247,20 +251,43 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 }
 
 void igvInterfaz::ControlFlechas(int key, int x, int y) {
-	switch (key) {
-	case GLUT_KEY_LEFT:
-		interfaz.sistemaparticulas.setPosition(-1, 0, 0);
-		break;
-	case GLUT_KEY_RIGHT:
-		interfaz.sistemaparticulas.setPosition(1, 0, 0);
-		break;
-	case GLUT_KEY_UP:
-		interfaz.sistemaparticulas.setPosition(0, 1, 0);
-		break;
-	case GLUT_KEY_DOWN:
-		interfaz.sistemaparticulas.setPosition(0, -1, 0);
-		break;
+	if (interfaz.option == 4) {
+		switch (key) {
+		case GLUT_KEY_LEFT:
+			interfaz.sistemaparticulas.setPosition(-1, 0, 0);
+			break;
+		case GLUT_KEY_RIGHT:
+			interfaz.sistemaparticulas.setPosition(1, 0, 0);
+			break;
+		case GLUT_KEY_UP:
+			interfaz.sistemaparticulas.setPosition(0, 1, 0);
+			break;
+		case GLUT_KEY_DOWN:
+			interfaz.sistemaparticulas.setPosition(0, -1, 0);
+			break;
+		}
 	}
+	if (interfaz.option == 1) {
+		switch (key) {
+		case GLUT_KEY_LEFT:
+			interfaz.i = 0;
+			interfaz.travelling--;
+			interfaz.vistas[0].set(0.0 + interfaz.travelling, 4.0, 15.0);
+			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(interfaz.travelling, 0, 0), interfaz.get_va(), interfaz.tc);
+			interfaz.camara.aplicar(0);
+			interfaz.camara.aplicar(1);
+			break;
+		case GLUT_KEY_RIGHT:
+			interfaz.i = 0;
+			interfaz.travelling++;
+			interfaz.vistas[0].set(0.0 + interfaz.travelling, 4.0, 15.0);
+			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(interfaz.travelling, 0, 0), interfaz.get_va(), interfaz.tc);
+			interfaz.camara.aplicar(0);
+			interfaz.camara.aplicar(1);
+			break;
+		}
+	}
+	glutPostRedisplay();
 
 }
 
@@ -319,13 +346,6 @@ void igvInterfaz::set_glutDisplayFunc() {
 				Sleep(50);
 
 				interfaz.vader.drawObjectC();
-				if (i == 1 && interfaz.anaglifo != 2 || i != 1) {
-					glClear(GL_DEPTH_BUFFER_BIT);
-					glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
-					interfaz.camara.aplicar(0);
-
-					interfaz.sistemaparticulas.pintarSistemaPArticulas();
-				}
 			}
 			break;
 		case 3:
@@ -334,7 +354,14 @@ void igvInterfaz::set_glutDisplayFunc() {
 
 			interfaz.escena.visualizar();
 			break;
+		case 4:
+				Sleep(50);
+				interfaz.sistemaparticulas.pintarSistemaPArticulas();
+			
+			break;
+
 		}
+		
 
 		if (interfaz.anaglifo == 1)glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	}
@@ -405,6 +432,7 @@ void igvInterfaz::set_glutIdleFunc() {
 			glutPostRedisplay();
 			break;
 		case 2:
+		case 4:
 			glutPostRedisplay();
 			break;
 		case 3:

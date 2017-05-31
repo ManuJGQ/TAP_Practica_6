@@ -4,7 +4,7 @@
 #include <iostream>
 
 TAPParticleSystem::TAPParticleSystem() {
-	numParticles = 1000;
+	numParticles = 821;
 
 	systemPull.y = 0.0005;
 	systemPull.x = 0.0f;
