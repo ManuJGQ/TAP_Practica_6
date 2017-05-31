@@ -171,7 +171,8 @@ Quaternion TAPSphericalInterpolation::getPosicionInterpolada(double _t){
 			return z;
 		}
 	}
-	std::cout << "" << std::endl;
+	std::cout << "" << std::endl; //cout de la muerte: si lo quitas la aplicacion peta 
+								  //(NO TIENE SENTIDO NINGUNO, PERO PETA)
 }
 
 /**

@@ -76,7 +76,7 @@ protected:
 	igvEscena3D escena; // escena que se visualiza en la ventana definida por igvInterfaz
 	TAPStereoscopicCamera camara;
 
-	bool anaglifo;
+	int anaglifo;
 
 	float tc;
 	float d0;

@@ -68,7 +68,7 @@ igvInterfaz::igvInterfaz() {
 
 	pintarBezier = true;
 
-	anaglifo = true;
+	anaglifo = 0;
 
 	vader = TAPHumanoid("vader.obj", "vaderskeleton.txt");
 
@@ -152,59 +152,73 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		interfaz.option = 2;
 		break;
 	case '+':
-		if (interfaz.opcion == '1' && !interfaz.animacion) {
-			interfaz.movController.set_K1(0.05);
-			interfaz.velocidad.set_K1(0.05);
-		}
-		if (interfaz.opcion == '2' && !interfaz.animacion) {
-			interfaz.movController.set_K2(0.05);
-			interfaz.velocidad.set_K2(0.05);
+		if (interfaz.option = 3) {
+			if (interfaz.opcion == '1' && !interfaz.animacion) {
+				interfaz.movController.set_K1(0.05);
+				interfaz.velocidad.set_K1(0.05);
+			}
+			if (interfaz.opcion == '2' && !interfaz.animacion) {
+				interfaz.movController.set_K2(0.05);
+				interfaz.velocidad.set_K2(0.05);
+			}
 		}
 		break;
 	case '-':
-		if (interfaz.opcion == '1' && !interfaz.animacion) {
-			interfaz.movController.set_K1(-0.05);
-			interfaz.velocidad.set_K1(-0.05);
-		}
-		if (interfaz.opcion == '2' && !interfaz.animacion) {
-			interfaz.movController.set_K2(-0.05);
-			interfaz.velocidad.set_K2(-0.05);
+		if (interfaz.option = 3) {
+			if (interfaz.opcion == '1' && !interfaz.animacion) {
+				interfaz.movController.set_K1(-0.05);
+				interfaz.velocidad.set_K1(-0.05);
+			}
+			if (interfaz.opcion == '2' && !interfaz.animacion) {
+				interfaz.movController.set_K2(-0.05);
+				interfaz.velocidad.set_K2(-0.05);
+			}
 		}
 		break;
 	case 't':
-		interfaz.escena.setTwist(0.01);
+		if (interfaz.option = 1)interfaz.escena.setTwist2(0.01);
 		break;
 	case 'T':
-		interfaz.escena.setTwist(-0.01);
+		if (interfaz.option = 1)interfaz.escena.setTwist2(-0.01);
 		break;
 	case 'R':
 	case 'r':
-		interfaz.escena.setTapering(interfaz.escena.getTapering() ? false : true);
+		if (interfaz.option = 1)interfaz.escena.setTapering(interfaz.escena.getTapering() ? false : true);
 		break;
-		/*case 'X':
-			interfaz.tc += 0.5;
+	case 'X':
+		interfaz.tc += 0.5;
+		interfaz.camara.set_tc(interfaz.tc);
+		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+		break;
+	case 'x':
+		interfaz.tc -= 0.5;
+		interfaz.camara.set_tc(interfaz.tc);
+		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+		break;
+	case 'Z':
+		interfaz.d0 += 0.5;
+		interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
+		interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
+		interfaz.camara.set_d0(interfaz.d0);
+		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+		break;
+	case 'z':
+		interfaz.d0 -= 0.5;
+		interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
+		interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
+		interfaz.camara.set_d0(interfaz.d0);
+		interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
+		break;
+	case 'M':
+	case 'm':
+		interfaz.anaglifo++;
+		if (interfaz.anaglifo > 2)interfaz.anaglifo = 0;
+		if (interfaz.anaglifo == 2) {
+			interfaz.tc = 0;
 			interfaz.camara.set_tc(interfaz.tc);
 			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
-			break;
-		case 'x':
-			interfaz.tc -= 0.5;
-			interfaz.camara.set_tc(interfaz.tc);
-			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
-			break;
-		case 'Z':
-			interfaz.d0 += 0.5;
-			interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
-			interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
-			interfaz.camara.set_d0(interfaz.d0);
-			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
-			break;
-		case 'z':
-			interfaz.d0 -= 0.5;
-			interfaz.vistas[0].set(6.0, 4.0, interfaz.d0);
-			interfaz.vistas[3].set(0, 0, interfaz.d0 + 2);
-			interfaz.camara.set_d0(interfaz.d0);
-			interfaz.camara.set(interfaz.get_vistas(interfaz.i), igvPunto3D(0, 0, 0), interfaz.get_va(), interfaz.tc);
-			break;*/
+		}
+		break;
 	case 'A':
 	case 'a': // activa/desactiva la animación de la escena
 	// incluir aquí la activación de la animación
@@ -212,15 +226,15 @@ void igvInterfaz::set_glutKeyboardFunc(unsigned char key, int x, int y) {
 		break;
 	case 'B':
 	case 'b':
-		interfaz.pintarBezier = (interfaz.pintarBezier ? false : true);
+		if (interfaz.option = 3)interfaz.pintarBezier = (interfaz.pintarBezier ? false : true);
 		break;
 	case 'W':
 	case 'w':
-		interfaz.vader.activatAndar();
+		if (interfaz.option = 2)interfaz.vader.activatAndar();
 		break;
 	case 's':
 	case 'S':
-		interfaz.vader.activatSaltar();
+		if (interfaz.option = 2)interfaz.vader.activatSaltar();
 		break;
 	case 'e': // activa/desactiva la visualizacion de los ejes
 		interfaz.escena.set_ejes(interfaz.escena.get_ejes() ? false : true);
@@ -258,7 +272,7 @@ void igvInterfaz::set_glutReshapeFunc(int w, int h) {
 
 	// establece los parámetros de la cámara y de la proyección
 	interfaz.camara.aplicar(0);
-	//interfaz.camara.aplicar(1);
+	if (interfaz.anaglifo != 2)interfaz.camara.aplicar(1);
 }
 
 void igvInterfaz::set_glutDisplayFunc() {
@@ -266,66 +280,66 @@ void igvInterfaz::set_glutDisplayFunc() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // borra la ventana y el z-buffer
 
-	//for (int i = 0; i < 2; i++) {
-
-	//	glClear(GL_DEPTH_BUFFER_BIT);
-
-	glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
-
-	//	// se establece el viewport
-	//	if (interfaz.anaglifo)glViewport(0, 0, interfaz.get_ancho_ventana() , interfaz.get_alto_ventana());
-	//	else {
-	//		if (i == 0) {
-	//			glViewport(0, 0, interfaz.get_ancho_ventana() / 2, interfaz.get_alto_ventana());
-	//		} else {
-	//			glViewport(interfaz.get_ancho_ventana() / 2, 0, interfaz.get_ancho_ventana() / 2, interfaz.get_alto_ventana());
-	//		}
-	//	}
-
-	interfaz.camara.aplicar(0);
-	//	// aplica las transformaciones en función de los parámetros de la cámara y del modo (visualización o selección)
-	//	
-
-	//	if (i == 0) {
-	//		interfaz.camara.aplicar(0);
-	//		if(interfaz.anaglifo)glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
-	//	}
-	//	else {
-	//		interfaz.camara.aplicar(1);
-	//		if (interfaz.anaglifo)glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
-	//	}
-
-	//	if (interfaz.pintarBezier)interfaz.bezier.pintarCurva();
-	//	else interfaz.velocidad.pintarCurva();
-
-	//	// visualiza la escena
-	//	interfaz.escena.visualizar();
-
-	//	if (interfaz.anaglifo)glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-	//}
-
-	switch (interfaz.option) {
-	case 1:
-		interfaz.escena.visualizar();
-		break;
-	case 2:
-		Sleep(50);
-
-		interfaz.vader.drawObjectC();
+	for (int i = 0; i < 2; i++) {
 
 		glClear(GL_DEPTH_BUFFER_BIT);
-		glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
-		interfaz.camara.aplicar(0);
 
-		interfaz.sistemaparticulas.pintarSistemaPArticulas();
-		break;
-	case 3:
-		if (interfaz.pintarBezier)interfaz.bezier.pintarCurva();
-		else interfaz.velocidad.pintarCurva();
+		//glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
 
-		interfaz.escena.visualizar();
-		break;
+			// se establece el viewport
+		if (interfaz.anaglifo == 1 || interfaz.anaglifo == 2)glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
+		else {
+			if (i == 0) {
+				glViewport(0, 0, interfaz.get_ancho_ventana() / 2, interfaz.get_alto_ventana());
+			}
+			else {
+				glViewport(interfaz.get_ancho_ventana() / 2, 0, interfaz.get_ancho_ventana() / 2, interfaz.get_alto_ventana());
+			}
+		}
+
+		//interfaz.camara.aplicar(0);
+			// aplica las transformaciones en función de los parámetros de la cámara y del modo (visualización o selección)
+
+
+		if (i == 0) {
+			interfaz.camara.aplicar(0);
+			if (interfaz.anaglifo == 1)glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+		}
+		else {
+			if(interfaz.anaglifo != 2)interfaz.camara.aplicar(1);
+			if (interfaz.anaglifo == 1)glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
+		}
+
+		switch (interfaz.option) {
+		case 1:
+			interfaz.escena.visualizar();
+			break;
+		case 2:
+			if (i == 1 && interfaz.anaglifo != 2 || i != 1) {
+				Sleep(50);
+
+				interfaz.vader.drawObjectC();
+				if (i == 1 && interfaz.anaglifo != 2 || i != 1) {
+					glClear(GL_DEPTH_BUFFER_BIT);
+					glViewport(0, 0, interfaz.get_ancho_ventana(), interfaz.get_alto_ventana());
+					interfaz.camara.aplicar(0);
+
+					interfaz.sistemaparticulas.pintarSistemaPArticulas();
+				}
+			}
+			break;
+		case 3:
+			if (interfaz.pintarBezier)interfaz.bezier.pintarCurva();
+			else interfaz.velocidad.pintarCurva();
+
+			interfaz.escena.visualizar();
+			break;
+		}
+
+		if (interfaz.anaglifo == 1)glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	}
+
+
 
 	// refresca la ventana
 	glutSwapBuffers();
@@ -410,7 +424,7 @@ void igvInterfaz::set_glutIdleFunc() {
 			/*std::cout << interfaz.pt2 << std::endl;
 			std::cout << nuevoPunto.x << " " << nuevoPunto.y << " " << nuevoPunto.z << std::endl;*/
 
-			
+
 			movimiento.x = nuevoPunto.x - interfaz.puntoActual.x;
 			movimiento.y = nuevoPunto.y - interfaz.puntoActual.y;
 			movimiento.z = nuevoPunto.z - interfaz.puntoActual.z;

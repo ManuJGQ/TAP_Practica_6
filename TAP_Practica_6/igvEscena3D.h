@@ -55,6 +55,13 @@ public:
 		}
 	}
 
+	void setTwist2(double _t) {
+		double tw = twist + _t;
+		if ((tw > -0.78 || iguales(tw, -0.78)) && (tw < 0.78 || iguales(tw, 0.78)) && !tapering) {
+			twist += _t;
+		}
+	}
+
 	bool get_ejes() { return ejes; };
 	void set_ejes(bool _ejes) { ejes = _ejes; };
 
